@@ -22,6 +22,9 @@ public class Usuario implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id")
     private Roles role;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "miEquipo_id")
+    private Equipo miequipo;
     public Usuario(){}
     public Usuario(String name, String email, String password, String imageUrl, String codigoUsuario, String posicion){
         this.name=name;
