@@ -1,4 +1,7 @@
 package com.manager.mangerexample.Repository;
 
-public interface PartidoRepo {
+import com.manager.mangerexample.Entidades.Partidos;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PartidoRepo extends JpaRepository<Partidos,Long> {
 }
