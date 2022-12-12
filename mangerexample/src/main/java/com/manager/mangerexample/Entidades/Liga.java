@@ -1,28 +1,39 @@
 package com.manager.mangerexample.Entidades;
 
 import javax.persistence.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 public class Liga implements Serializable {
+
+    private static final long serialVersionUID = -713591734105301111L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(nullable = false)
     private String nombreLiga;
+    @Column(nullable = false)
     private String Direccion;
+    @Column(nullable = false)
     private int codPostal;
+    @Column(nullable = false)
     private Date inicio;
+    @Column(nullable = false)
     private Date fin;
+    @Column(nullable = false)
     private int jornadas;
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "ListaEquipos-id")
+    @Column(nullable = false)
+    private int maxEquipos;
+    @OneToMany(fetch=FetchType.LAZY,mappedBy = "id")
     private List<Equipo> ListaEquipos;
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ListaPartidos-id")
-    private  List<Partidos> ListaPartidos;
+    @JoinColumn(name = "ListaJornadas-id")
+    private  List<Jornada> ListaJornadas;
 
     public String getNombreLiga() {
         return nombreLiga;
@@ -80,12 +91,25 @@ public class Liga implements Serializable {
         ListaEquipos = listaEquipos;
     }
 
-    public List<Partidos> getListaPartidos() {
-        return ListaPartidos;
+
+    public List<Jornada> getListaJornadas() {
+        return ListaJornadas;
     }
 
-    public void setListaPartidos(List<Partidos> listaPartidos) {
-        ListaPartidos = listaPartidos;
+    public void setListaJornadas(List<Jornada> listaJornadas) {
+        ListaJornadas = listaJornadas;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getMaxEquipos() {
+        return maxEquipos;
     }
 
     @Override
@@ -98,16 +122,13 @@ public class Liga implements Serializable {
                 ", inicio=" + inicio +
                 ", fin=" + fin +
                 ", jornadas=" + jornadas +
+                ", maxEquipos=" + maxEquipos +
                 ", ListaEquipos=" + ListaEquipos +
-                ", ListaPartidos=" + ListaPartidos +
+                ", ListaJornadas=" + ListaJornadas +
                 '}';
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setMaxEquipos(int maxEquipos) {
+        this.maxEquipos = maxEquipos;
     }
 }

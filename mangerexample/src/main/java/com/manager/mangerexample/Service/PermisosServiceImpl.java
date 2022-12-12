@@ -4,9 +4,10 @@ import com.manager.mangerexample.Entidades.Permisos;
 import com.manager.mangerexample.Repository.PermisosRepo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
+@Service
 public class PermisosServiceImpl implements PermisosService {
     private PermisosRepo permisoRepo;
     @Override

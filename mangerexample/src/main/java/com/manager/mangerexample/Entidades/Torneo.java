@@ -16,8 +16,7 @@ public class Torneo {
     private int codPostal;
     private Date inicio;
     private Date fin;
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name = "ListaEquipos-id")
+    @OneToMany(fetch=FetchType.LAZY)
     private List<Equipo> ListaEquipos;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "ListaPartidos-id")

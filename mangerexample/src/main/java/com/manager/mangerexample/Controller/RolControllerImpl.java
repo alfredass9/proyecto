@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import com.manager.mangerexample.Entidades.Permisos;
 import com.manager.mangerexample.Entidades.Roles;
 import com.manager.mangerexample.Service.RoleService;
 import org.slf4j.Logger;
@@ -47,7 +48,7 @@ public class RolControllerImpl implements RolController {
         return ResponseEntity.ok(oRole);
     }
 
-    // Update an User
+    // Update an Role
     @PutMapping("/{id}")
 
     public ResponseEntity<?> rolUpdate(@RequestBody Roles rolDetails,
@@ -62,7 +63,7 @@ public class RolControllerImpl implements RolController {
         return ResponseEntity.status(HttpStatus.CREATED).body(rolService.save(rol.get()));
 
     }
-
+    //delete rol
     @DeleteMapping("/{id}")
     public ResponseEntity<?> rolDelete(@PathVariable(value = "id") Long rolId) {
 
@@ -70,9 +71,9 @@ public class RolControllerImpl implements RolController {
             return ResponseEntity.notFound().build();
         }
         rolService.deleteById(rolId);
-
         return ResponseEntity.ok().build();
     }
+
 
     // Read all roles
     @GetMapping("/roles")
@@ -83,5 +84,12 @@ public class RolControllerImpl implements RolController {
         return roles;
 
     }
+
+    @Override
+    public List<Permisos> readRolePermisos(Long roleId) {
+        Optional<Roles> rol = rolService.findById(roleId);
+        return rol.get().getListaPermisos();
+    }
+
 
 }

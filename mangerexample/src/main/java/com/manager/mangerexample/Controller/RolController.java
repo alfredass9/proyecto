@@ -2,6 +2,7 @@ package com.manager.mangerexample.Controller;
 
 import java.util.List;
 
+import com.manager.mangerexample.Entidades.Permisos;
 import com.manager.mangerexample.Entidades.Roles;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,4 +20,5 @@ public interface RolController {
     public ResponseEntity<?> rolDelete(@PathVariable(value = "id") Long rolId);
 
     public List<Roles> readAllRoles();
+    public List<Permisos> readRolePermisos(@PathVariable(value = "id") Long roleId);
 }

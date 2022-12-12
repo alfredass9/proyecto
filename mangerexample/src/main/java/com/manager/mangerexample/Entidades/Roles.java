@@ -3,6 +3,7 @@ package com.manager.mangerexample.Entidades;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 @Entity
@@ -11,6 +12,8 @@ import java.util.List;
 
 public class Roles implements Serializable {
 
+
+    private static final long serialVersionUID = -3137534668435410885L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
