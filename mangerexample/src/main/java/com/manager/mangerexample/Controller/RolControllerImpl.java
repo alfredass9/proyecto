@@ -58,7 +58,7 @@ public class RolControllerImpl implements RolController {
         if (!rol.isPresent()) {
             return ResponseEntity.notFound().build();
         }
-        rol.get().setName(rolDetails.getName());
+        rol.get().setRolNombre(rolDetails.getRolNombre());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(rolService.save(rol.get()));
 

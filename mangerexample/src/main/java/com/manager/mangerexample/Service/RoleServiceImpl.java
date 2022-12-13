@@ -1,6 +1,7 @@
 package com.manager.mangerexample.Service;
 
 import com.manager.mangerexample.Entidades.Roles;
+import com.manager.mangerexample.Enums.RolNombre;
 import com.manager.mangerexample.Repository.RolRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 @Service
+@Transactional
 public class RoleServiceImpl implements RoleService{
 
     @Autowired
@@ -46,5 +48,8 @@ public class RoleServiceImpl implements RoleService{
     public void deleteById(Long id) {
 
         rolRepository.deleteById(id);
+    }
+    public Optional<Roles> getByRolNombre(RolNombre rolNombre){
+      return   rolRepository.findByRolNombre(rolNombre);
     }
 }

@@ -16,4 +16,7 @@ public interface UserService {
 
     public void deleteById(Long id);
     public Usuario updateUsuario(Usuario usuario);
+    public Optional<Usuario> getByNombreUsuario(String nombreUsuario);
+    public boolean existsByNombreUsuario(String nombreUsuario);
+    public boolean existsByEmail(String email);
 }

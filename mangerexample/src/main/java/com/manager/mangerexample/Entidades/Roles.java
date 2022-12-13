@@ -1,5 +1,7 @@
 package com.manager.mangerexample.Entidades;
 
+import com.manager.mangerexample.Enums.RolNombre;
+import com.sun.istack.NotNull;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,17 +20,36 @@ public class Roles implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column
-    private String name;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private RolNombre rolNombre;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "id-permisos")
     private List<Permisos> ListaPermisos;
 
-    public String getName() {
-        return name;
+
+    public Roles() {
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Roles(@NotNull RolNombre rolNombre) {
+        this.rolNombre = rolNombre;
+    }
+
+    public RolNombre getRolNombre() {
+        return rolNombre;
+    }
+
+    @Override
+    public String toString() {
+        return "Roles{" +
+                "id=" + id +
+                ", rolNombre=" + rolNombre +
+                ", ListaPermisos=" + ListaPermisos +
+                '}';
+    }
+
+    public void setRolNombre(RolNombre rolNombre) {
+        this.rolNombre = rolNombre;
     }
 
     public Long getId() {
@@ -47,12 +68,5 @@ public class Roles implements Serializable {
         ListaPermisos = listaPermisos;
     }
 
-    @Override
-    public String toString() {
-        return "Roles{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", ListaPermisos=" + ListaPermisos +
-                '}';
-    }
+
 }
