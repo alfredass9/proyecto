@@ -1,6 +1,7 @@
 package com.manager.mangerexample;
 
 
+import com.manager.mangerexample.Entidades.Calendario;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +17,10 @@ import java.util.Arrays;
 public class ManagerexampleApplication {
 
 	public static void main(String[] args) {
+
+
 		SpringApplication.run(ManagerexampleApplication.class, args);
+		new Calendario(8);
 	}
 	@Bean
 	public CorsFilter corsFilter() {
