@@ -5,15 +5,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { UsuarioService } from './services/usuario.service';
-import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+
 import { AuthGuard } from './guards/auth.guard'; 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UserAdminComponent } from './user-admin/user-admin.component';
+import { MenuComponent } from './menu/menu.component';
+import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './auth/login.component';
+import { RegistroComponent } from './auth/registro.component'
 @NgModule({
   declarations: [
     AppComponent,
+    UserAdminComponent,
+    MenuComponent,
+    HomeComponent,
     LoginComponent,
-    DashboardComponent
+    RegistroComponent
   ],
   imports: [
     BrowserModule,
