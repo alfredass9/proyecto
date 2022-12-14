@@ -14,7 +14,7 @@ public class Jornada implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
     private Date dia;
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany (fetch = FetchType.LAZY,mappedBy = "id")
     private List<Partidos> misPartidos;
 
     public Date getDia() {

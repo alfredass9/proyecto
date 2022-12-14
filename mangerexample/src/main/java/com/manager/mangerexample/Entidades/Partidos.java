@@ -17,6 +17,9 @@ public class Partidos {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "ListaEquipo_id")
     private List<Equipo> equipoList;
+    @ManyToOne
+    @JoinColumn(name = "Partido_jornada_id")
+    private Jornada jornadas;
 
     public Long getId() {
         return id;

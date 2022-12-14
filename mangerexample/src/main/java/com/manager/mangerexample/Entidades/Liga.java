@@ -132,6 +132,4 @@ public class Liga implements Serializable {
         this.maxEquipos = maxEquipos;
     }
 }
-class MiEquipo extends Equipo{
-    private int mispuntos;
-}
+

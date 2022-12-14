@@ -85,11 +85,6 @@ public class RolControllerImpl implements RolController {
 
     }
 
-    @Override
-    public List<Permisos> readRolePermisos(Long roleId) {
-        Optional<Roles> rol = rolService.findById(roleId);
-        return rol.get().getListaPermisos();
-    }
 
 
 }

@@ -19,7 +19,7 @@ public class Usuario implements Serializable {
     @Column(unique = true)
     private String nombreUsuario;
     private String posicion;
-    @Column( unique = true)
+    @Column(unique = true)
     private String email;
     private String password;
     private String imageUrl;
@@ -34,13 +34,14 @@ public class Usuario implements Serializable {
     @JoinColumn(name = "miEquipo_id")
     private Equipo miequipo;
     public Usuario(){}
-    public Usuario(String name, String email, String password, String imageUrl, String codigoUsuario, String posicion){
-        this.name=name;
-        this.email=email;
-        this.password=password;
-        this.imageUrl=imageUrl;
-        this.codigoUsuario=codigoUsuario;
-        this.posicion=posicion;
+
+    public Usuario(String name, String nombreUsuario, String posicion, String email, String password, String imageUrl) {
+        this.name = name;
+        this.nombreUsuario = nombreUsuario;
+        this.posicion = posicion;
+        this.email = email;
+        this.password = password;
+        this.imageUrl = imageUrl;
     }
 
     @Override
