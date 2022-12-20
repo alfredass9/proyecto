@@ -91,3 +91,23 @@ export class UserAdminComponent implements OnInit {
     );
   }
 }
+/*Liga miliga=ligaService.findById(ligaID).get();
+        List<Partidos> mispartidos=new ArrayList<>();
+        List<Equipo> misEQuipo=miliga.getListaEquipos();
+        if(misEQuipo.isEmpty()){
+            return new ResponseEntity<>(miliga,HttpStatus.BAD_REQUEST);
+        }
+        if (misEQuipo.size() % 2 != 0) {
+            misEQuipo.add(new Equipo());
+        }
+        int jornadas=misEQuipo.size()-1;
+        List<Jornada> misJornadas=new ArrayList<>();
+        for(int round=0;round<jornadas;round++){
+            for(int i = 0; i < misEQuipo.size() / 2; i++){
+                Equipo local=misEQuipo.get(i);
+                Equipo visitante=misEQuipo.get(misEQuipo.size()-i-1);
+                Partidos partidos= new Partidos(local,visitante);
+                mispartidos.add(partidos);
+            }
+        }
+        misJornadas.*/
