@@ -1,10 +1,13 @@
 package com.manager.mangerexample.Controller;
 
+import com.manager.mangerexample.DTO.Mensaje;
 import com.manager.mangerexample.Entidades.Usuario;
 import com.manager.mangerexample.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +17,7 @@ import java.util.stream.StreamSupport;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserControllerImpl implements UserController {
     @Autowired
     private UserService userService;
@@ -24,6 +27,20 @@ public class UserControllerImpl implements UserController {
         List<Usuario> users= StreamSupport.stream(userService.findAll().spliterator(),false).collect(Collectors.toList());
         return  new ResponseEntity<>(users, HttpStatus.OK);
     }
+
+    @Override
+    @CrossOrigin(origins = "http://localhost:4200")
+    @Secured("hasRole('USER')")
+    @GetMapping ("/findUser/{nombreUsuario}")
+    public ResponseEntity<Usuario> getUserNombreUsuario(@PathVariable("nombreUsuario")String nombreUsuario) {
+        if(!userService.existsByNombreUsuario(nombreUsuario))
+            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+
+        Usuario oUser =userService.getByNombreUsuario(nombreUsuario).get();
+
+        return new ResponseEntity(oUser,HttpStatus.OK);
+    }
+
     @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping ("/find/{id}")
         public ResponseEntity<?> getUserById(@PathVariable("id") Long id){
@@ -34,6 +51,7 @@ public class UserControllerImpl implements UserController {
 
         return ResponseEntity.ok(oUser);
         }
+
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/add")
     public ResponseEntity<Usuario> addUser(@RequestBody Usuario user){

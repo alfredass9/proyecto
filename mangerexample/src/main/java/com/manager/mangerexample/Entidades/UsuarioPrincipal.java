@@ -1,14 +1,10 @@
 package com.manager.mangerexample.Entidades;
 
-import com.manager.mangerexample.Service.UserDetailsImpl;
-import com.sun.istack.NotNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -25,7 +21,7 @@ public class UsuarioPrincipal implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
     private Equipo miequipo;
 
-    public UsuarioPrincipal(String name, String userName, String posicion, String email, String password, String imageUrl, String codigoUsuario, Collection<? extends GrantedAuthority> authorities, Equipo miequipo) {
+    public UsuarioPrincipal(String name, String userName, String posicion, String email, String password, String imageUrl, String codigoUsuario, Collection<? extends GrantedAuthority> authorities) {
         this.name = name;
         this.userName = userName;
         this.posicion = posicion;
@@ -34,14 +30,14 @@ public class UsuarioPrincipal implements UserDetails {
         this.imageUrl = imageUrl;
         this.codigoUsuario = codigoUsuario;
         this.authorities = authorities;
-        this.miequipo = miequipo;
     }
     public static UsuarioPrincipal build(Usuario usuario){
+
         List<GrantedAuthority> authorities=
                 usuario.getRole().stream().map(rol->new SimpleGrantedAuthority(rol.getRolNombre().name())).collect(Collectors.toList());
         return new UsuarioPrincipal(usuario.getName(), usuario.getnombreUsuario(), usuario.getPosicion(),
                 usuario.getEmail(), usuario.getPassword(), usuario.getImageUrl(), usuario.getCodigoUsuario(),
-                authorities, usuario.getMiequipo() );
+                authorities);
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -85,11 +81,6 @@ public class UsuarioPrincipal implements UserDetails {
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getUserName() {
-        return userName;
-    }
-
     public void setUserName(String userName) {
         this.userName = userName;
     }

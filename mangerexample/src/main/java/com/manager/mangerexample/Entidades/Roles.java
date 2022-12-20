@@ -5,9 +5,9 @@ import com.sun.istack.NotNull;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serial;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
+
 @Entity
 @Table(name = "roles")
 @Data
@@ -19,24 +19,25 @@ public class Roles implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
     @NotNull
     @Enumerated(EnumType.STRING)
     private RolNombre rolNombre;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id-permisos")
-    private List<Permisos> ListaPermisos;
-
 
     public Roles() {
+
     }
 
     public Roles(@NotNull RolNombre rolNombre) {
-        this.rolNombre = rolNombre;
+        this.rolNombre= rolNombre;
     }
+
 
     public RolNombre getRolNombre() {
         return rolNombre;
+    }
+
+    public void setRolNombre( RolNombre rolNombre) {
+        this.rolNombre = rolNombre;
     }
 
     @Override
@@ -44,13 +45,10 @@ public class Roles implements Serializable {
         return "Roles{" +
                 "id=" + id +
                 ", rolNombre=" + rolNombre +
-                ", ListaPermisos=" + ListaPermisos +
                 '}';
     }
 
-    public void setRolNombre(RolNombre rolNombre) {
-        this.rolNombre = rolNombre;
-    }
+
 
     public Long getId() {
         return id;
@@ -60,13 +58,6 @@ public class Roles implements Serializable {
         this.id = id;
     }
 
-    public List<Permisos> getListaPermisos() {
-        return ListaPermisos;
-    }
-
-    public void setListaPermisos(List<Permisos> listaPermisos) {
-        ListaPermisos = listaPermisos;
-    }
 
 
 }

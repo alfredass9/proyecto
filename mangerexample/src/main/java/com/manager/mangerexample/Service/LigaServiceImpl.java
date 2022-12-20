@@ -4,6 +4,7 @@ import com.manager.mangerexample.Entidades.Equipo;
 import com.manager.mangerexample.Entidades.Liga;
 import com.manager.mangerexample.Repository.EquipoRepo;
 import com.manager.mangerexample.Repository.LigaRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,8 +14,11 @@ import java.util.List;
 import java.util.Optional;
 @Service
 public class LigaServiceImpl implements LigaService {
-    private LigaRepo ligaRepo;
+   @Autowired
+   private LigaRepo ligaRepo;
+   @Autowired
     private EquipoRepo equipoRepo;
+
     @Override
     public Iterable<Liga> findAll() {
         return ligaRepo.findAll();
@@ -39,7 +43,7 @@ public class LigaServiceImpl implements LigaService {
 
     @Override
     public void deleteById(Long id) {
-    ligaRepo.deleteById(id);
+        ligaRepo.deleteById(id);
     }
 
     @Override
@@ -49,34 +53,23 @@ public class LigaServiceImpl implements LigaService {
 
     @Override
     public void añadirEquipo(Long idEquipo, Liga liga) {
-        Optional<Equipo> nuevoEquipo=equipoRepo.findById(idEquipo);
-        if(nuevoEquipo.isPresent()){
-            List<Equipo> misEquipos=liga.getListaEquipos();
-            misEquipos.add(nuevoEquipo.get());
-            liga.setListaEquipos(misEquipos);
-            ligaRepo.save(liga);
-        }
 
+        ligaRepo.save(liga);
+    }
+
+    public boolean existsByNombreLiga(String nombreLiga) {
+        return ligaRepo.existsByNombreLiga(nombreLiga);
     }
 
     @Override
-    public void crearPartidos(Liga liga) {
-        Date inicio=liga.getInicio();
-        Date fin=liga.getFin();
-        int jornadas=liga.getJornadas();
-        int misEquipos=liga.getListaEquipos().size();
-
-        try {
-            if(misEquipos%2==0){
-                for(int x=0;x<=jornadas;x++){
-
-
-                }
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-
+    public Optional<Liga> findBynombreLiga(String nombreLiga) {
+        return ligaRepo.findByNombreLiga(nombreLiga);
     }
+
+    @Override
+    public boolean existsById(Long id) {
+        return ligaRepo.existsById(id);
+    }
+
 }
+

@@ -20,5 +20,4 @@ public interface RolController {
     public ResponseEntity<?> rolDelete(@PathVariable(value = "id") Long rolId);
 
     public List<Roles> readAllRoles();
-    public List<Permisos> readRolePermisos(@PathVariable(value = "id") Long roleId);
 }

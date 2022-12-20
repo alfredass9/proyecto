@@ -1,6 +1,9 @@
 package com.manager.mangerexample.Entidades;
 
+import lombok.Getter;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
@@ -19,21 +22,26 @@ public class Liga implements Serializable {
     private String nombreLiga;
     @Column(nullable = false)
     private String Direccion;
-    @Column(nullable = false)
-    private int codPostal;
-    @Column(nullable = false)
-    private Date inicio;
-    @Column(nullable = false)
-    private Date fin;
-    @Column(nullable = false)
-    private int jornadas;
-    @Column(nullable = false)
-    private int maxEquipos;
-    @OneToMany(fetch=FetchType.LAZY,mappedBy = "id")
-    private List<Equipo> ListaEquipos;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ListaJornadas-id")
-    private  List<Jornada> ListaJornadas;
+    private String logo;
+
+    @OneToMany(orphanRemoval = true)
+    @Size(max=8)
+    @JoinTable(name="equipos_porLiga",joinColumns = @JoinColumn(name = "liga_id")
+            ,inverseJoinColumns = @JoinColumn(name = "equipo_id"))
+    private List<Equipo> listaEquipos = new java.util.ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name="jornada_porLiga",joinColumns = @JoinColumn(name = "liga_id")
+            ,inverseJoinColumns = @JoinColumn(name = "jornada_id"))
+    private  List<Jornada> listaJornadas;
+
+    public Liga() {
+    }
+
+    public Liga(String nombreLiga, String direccion, String logo) {
+        this.nombreLiga = nombreLiga;
+        Direccion = direccion;
+        this.logo = logo;
+    }
 
     public String getNombreLiga() {
         return nombreLiga;
@@ -51,55 +59,6 @@ public class Liga implements Serializable {
         Direccion = direccion;
     }
 
-    public int getCodPostal() {
-        return codPostal;
-    }
-
-    public void setCodPostal(int codPostal) {
-        this.codPostal = codPostal;
-    }
-
-    public Date getInicio() {
-        return inicio;
-    }
-
-    public void setInicio(Date inicio) {
-        this.inicio = inicio;
-    }
-
-    public Date getFin() {
-        return fin;
-    }
-
-    public void setFin(Date fin) {
-        this.fin = fin;
-    }
-
-    public int getJornadas() {
-        return jornadas;
-    }
-
-    public void setJornadas(int jornadas) {
-        this.jornadas = jornadas;
-    }
-
-    public List<Equipo> getListaEquipos() {
-        return ListaEquipos;
-    }
-
-    public void setListaEquipos(List<Equipo> listaEquipos) {
-        ListaEquipos = listaEquipos;
-    }
-
-
-    public List<Jornada> getListaJornadas() {
-        return ListaJornadas;
-    }
-
-    public void setListaJornadas(List<Jornada> listaJornadas) {
-        ListaJornadas = listaJornadas;
-    }
-
     public Long getId() {
         return id;
     }
@@ -107,9 +66,29 @@ public class Liga implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+    public String getLogo() {
+        return logo;
+    }
 
-    public int getMaxEquipos() {
-        return maxEquipos;
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+
+    public List<Equipo> getListaEquipos() {
+        return listaEquipos;
+    }
+
+    public void setListaEquipos(List<Equipo> listaEquipos) {
+        this.listaEquipos = listaEquipos;
+    }
+
+    public List<Jornada> getListaJornadas() {
+        return listaJornadas;
+    }
+
+    public void setListaJornadas(List<Jornada> listaJornadas) {
+        this.listaJornadas = listaJornadas;
     }
 
     @Override
@@ -118,20 +97,10 @@ public class Liga implements Serializable {
                 "id=" + id +
                 ", nombreLiga='" + nombreLiga + '\'' +
                 ", Direccion='" + Direccion + '\'' +
-                ", codPostal=" + codPostal +
-                ", inicio=" + inicio +
-                ", fin=" + fin +
-                ", jornadas=" + jornadas +
-                ", maxEquipos=" + maxEquipos +
-                ", ListaEquipos=" + ListaEquipos +
-                ", ListaJornadas=" + ListaJornadas +
+                ", logo='" + logo + '\'' +
+                ", listaEquipos=" + listaEquipos +
+                ", listaJornadas=" + listaJornadas +
                 '}';
     }
+}
 
-    public void setMaxEquipos(int maxEquipos) {
-        this.maxEquipos = maxEquipos;
-    }
-}
-class MiEquipo extends Equipo{
-    private int mispuntos;
-}

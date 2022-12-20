@@ -1,10 +1,16 @@
 package com.manager.mangerexample.Entidades;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Entity
 public class Equipo implements Serializable {
@@ -12,26 +18,38 @@ public class Equipo implements Serializable {
     private static final long serialVersionUID = -6146328753404273703L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column( nullable = false,updatable = false)
     private Long id;
     private String nombreEquipo;
-    private String logoEquipo;
 
+    private String logoEquipo;
+    @Column( nullable = false,updatable = true)
     private int misPuntos;
-    private int partidosJugados;
-    private int partidosGanados;
-    private  int partidosPerdidos;
-    private int partidosEmpatados;
-    private int golesAfavor;
-    private int golesEncontra;
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "id")
-    private List<Usuario> listaJugadores;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ListaEquiposLiga-id")
-    private Liga miLiga;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ListaEquiposTorneo-id")
-    private Torneo miTorneo;
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(name="lista_equipos_jugadores",joinColumns = @JoinColumn(name = "equipo_id")
+            ,inverseJoinColumns = @JoinColumn(name = "usuario_id"))
+    private Set<Usuario> listaJugadores=new HashSet<>();
+
+    public Equipo() {
+    }
+
+
+    @Override
+    public String toString() {
+        return "Equipo{" +
+                "id=" + id +
+                ", nombreEquipo='" + nombreEquipo + '\'' +
+                ", logoEquipo='" + logoEquipo + '\'' +
+                ", misPuntos=" + misPuntos +
+                ", listaJugadores=" + listaJugadores +
+                '}';
+    }
+
+    public Equipo(String nombreEquipo, String logoEquipo) {
+        this.nombreEquipo = nombreEquipo;
+        this.logoEquipo = logoEquipo;
+    }
+
     public String getNombreEquipo() {
         return nombreEquipo;
     }
@@ -48,21 +66,14 @@ public class Equipo implements Serializable {
         this.logoEquipo = logoEquipo;
     }
 
-    public List<Usuario> getListaJugadores() {
+    public Set<Usuario> getListaJugadores() {
         return listaJugadores;
     }
 
-    public void setListaJugadores(List<Usuario> listaJugadores) {
+    public void setListaJugadores(Set<Usuario> listaJugadores) {
         this.listaJugadores = listaJugadores;
     }
 
-    public Liga getMiLiga() {
-        return miLiga;
-    }
-
-    public void setMiLiga(Liga miLiga) {
-        this.miLiga = miLiga;
-    }
 
     public Long getId() {
         return id;
@@ -81,78 +92,4 @@ public class Equipo implements Serializable {
         this.misPuntos = misPuntos;
     }
 
-    public int getPartidosJugados() {
-        return partidosJugados;
-    }
-
-    public void setPartidosJugados(int partidosJugados) {
-        this.partidosJugados = partidosJugados;
-    }
-
-    public int getPartidosGanados() {
-        return partidosGanados;
-    }
-
-    public void setPartidosGanados(int partidosGanados) {
-        this.partidosGanados = partidosGanados;
-    }
-
-    public int getPartidosPerdidos() {
-        return partidosPerdidos;
-    }
-
-    public void setPartidosPerdidos(int partidosPerdidos) {
-        this.partidosPerdidos = partidosPerdidos;
-    }
-
-    public int getPartidosEmpatados() {
-        return partidosEmpatados;
-    }
-
-    public void setPartidosEmpatados(int partidosEmpatados) {
-        this.partidosEmpatados = partidosEmpatados;
-    }
-
-    public int getGolesAfavor() {
-        return golesAfavor;
-    }
-
-    public void setGolesAfavor(int golesAfavor) {
-        this.golesAfavor = golesAfavor;
-    }
-
-    public int getGolesEncontra() {
-        return golesEncontra;
-    }
-
-    public void setGolesEncontra(int golesEncontra) {
-        this.golesEncontra = golesEncontra;
-    }
-
-    public Torneo getMiTorneo() {
-        return miTorneo;
-    }
-
-    public void setMiTorneo(Torneo miTorneo) {
-        this.miTorneo = miTorneo;
-    }
-
-    @Override
-    public String toString() {
-        return "Equipo{" +
-                "id=" + id +
-                ", nombreEquipo='" + nombreEquipo + '\'' +
-                ", logoEquipo='" + logoEquipo + '\'' +
-                ", misPuntos=" + misPuntos +
-                ", partidosJugados=" + partidosJugados +
-                ", partidosGanados=" + partidosGanados +
-                ", partidosPerdidos=" + partidosPerdidos +
-                ", partidosEmpatados=" + partidosEmpatados +
-                ", golesAfavor=" + golesAfavor +
-                ", golesEncontra=" + golesEncontra +
-                ", listaJugadores=" + listaJugadores +
-                ", miLiga=" + miLiga +
-                ", miTorneo=" + miTorneo +
-                '}';
-    }
 }
