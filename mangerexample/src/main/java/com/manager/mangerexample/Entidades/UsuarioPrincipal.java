@@ -21,7 +21,7 @@ public class UsuarioPrincipal implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
     private Equipo miequipo;
 
-    public UsuarioPrincipal(String name, String userName, String posicion, String email, String password, String imageUrl, String codigoUsuario, Collection<? extends GrantedAuthority> authorities, Equipo miequipo) {
+    public UsuarioPrincipal(String name, String userName, String posicion, String email, String password, String imageUrl, String codigoUsuario, Collection<? extends GrantedAuthority> authorities) {
         this.name = name;
         this.userName = userName;
         this.posicion = posicion;
@@ -30,7 +30,6 @@ public class UsuarioPrincipal implements UserDetails {
         this.imageUrl = imageUrl;
         this.codigoUsuario = codigoUsuario;
         this.authorities = authorities;
-        this.miequipo = miequipo;
     }
     public static UsuarioPrincipal build(Usuario usuario){
 
@@ -38,7 +37,7 @@ public class UsuarioPrincipal implements UserDetails {
                 usuario.getRole().stream().map(rol->new SimpleGrantedAuthority(rol.getRolNombre().name())).collect(Collectors.toList());
         return new UsuarioPrincipal(usuario.getName(), usuario.getnombreUsuario(), usuario.getPosicion(),
                 usuario.getEmail(), usuario.getPassword(), usuario.getImageUrl(), usuario.getCodigoUsuario(),
-                authorities, usuario.getMiequipo() );
+                authorities);
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

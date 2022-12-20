@@ -7,6 +7,7 @@ public class Calendario {
     private int[] equipos;
     private String[][] matriz1,matriz2,jornadas,jornadas2;
 
+
     //Num de jornadas = (N-1)*2, con N = num equipos. (N-1) es una vuelta.
 
     /**

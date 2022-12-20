@@ -19,5 +19,9 @@ public interface LigaService {
     public void deleteById(Long id);
     public Liga updateLiga(Liga Liga);
     public void  añadirEquipo(Long idEquipo, Liga liga);
-    public void crearPartidos(Liga liga);
+
+    public boolean existsByNombreLiga(String nombreLiga) ;
+    public Optional<Liga> findBynombreLiga(String nombreLiga);
+    public boolean existsById(Long id);
+
 }

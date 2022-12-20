@@ -13,16 +13,20 @@ public class Jornada implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
-    private Date dia;
-    @OneToMany (fetch = FetchType.LAZY,mappedBy = "id")
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(name="jornadas-partidos",joinColumns = @JoinColumn(name = "jornada_id")
+            ,inverseJoinColumns = @JoinColumn(name = "partido_id"))
     private List<Partidos> misPartidos;
 
-    public Date getDia() {
-        return dia;
+    public Jornada() {
     }
 
-    public void setDia(Date dia) {
-        this.dia = dia;
+    public Jornada(Long id) {
+        this.id = id;
+    }
+
+    public Jornada(List<Partidos> misPartidos) {
+        this.misPartidos = misPartidos;
     }
 
     public List<Partidos> getMisPartidos() {
@@ -37,7 +41,6 @@ public class Jornada implements Serializable {
     public String toString() {
         return "Jornada{" +
                 "id=" + id +
-                ", dia=" + dia +
                 ", misPartidos=" + misPartidos +
                 '}';
     }

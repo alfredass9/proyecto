@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -23,25 +24,40 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     UserDetailsServiceImpl userDetailsService;
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
-        try {
-            String token= this.getToken(req);
-            if (token!=null&& jwtProvider.validateToken(token) ){
-                String nombreUsuario= jwtProvider.getNombreUsuarioFromToken(token);
-                UserDetails userDetails = userDetailsService.loadUserByUsername(nombreUsuario);
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null,userDetails.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(auth);
+            try {
+
+                String token= this.getToken(req);
+                logger.debug(token);
+
+
+                if (token !=null && jwtProvider.validateToken(token) ){
+                    String nombreUsuario= jwtProvider.getNombreUsuarioFromToken(token);
+
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(nombreUsuario);
+
+                    UsernamePasswordAuthenticationToken auth =
+                            new UsernamePasswordAuthenticationToken(userDetails, null,userDetails.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                }
+
+            }catch (Exception e){
+                logger.error("fail en el método doFilter " + e.getMessage());
+                e.printStackTrace();
             }
-        }catch (Exception e){
-            logger.error("fail el metodo doFilter");
-        }
-        filterChain.doFilter(req,res);
+
+
+        filterChain.doFilter(req, res);
+
 
     }
     private String getToken(HttpServletRequest request){
         String header=request.getHeader("Authorization");
-        if (header!=null&& header.startsWith("Bearer")){
+        if (StringUtils.hasText(header) && header.startsWith("Bearer")){
+            logger.error(header.replace("Bearer",""));
             return  header.replace("Bearer","");
+
         }
         return null;
     }
+
 }

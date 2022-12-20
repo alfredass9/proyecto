@@ -1,5 +1,7 @@
 package com.manager.mangerexample.Entidades;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -26,13 +28,10 @@ public class Usuario implements Serializable {
     @Column(nullable = false, updatable = false)
     private String codigoUsuario;
     @NotNull
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="usuario_Rol",joinColumns = @JoinColumn(name = "usuario_id")
             ,inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Roles> role=new HashSet<>();
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "miEquipo_id")
-    private Equipo miequipo;
     public Usuario(){}
 
     public Usuario(String name, String nombreUsuario, String posicion, String email, String password, String imageUrl) {
@@ -56,9 +55,12 @@ public class Usuario implements Serializable {
                 ", imageUrl='" + imageUrl + '\'' +
                 ", codigoUsuario='" + codigoUsuario + '\'' +
                 ", role=" + role +
-                ", miequipo=" + miequipo +
                 '}';
     }
+
+
+
+
 
     public Long getId() {
         return id;
@@ -78,14 +80,6 @@ public class Usuario implements Serializable {
 
     public void setRole(Set<Roles> role) {
         this.role = role;
-    }
-
-    public Equipo getMiequipo() {
-        return miequipo;
-    }
-
-    public void setMiequipo(Equipo miequipo) {
-        this.miequipo = miequipo;
     }
 
     public void setId(Long id) {

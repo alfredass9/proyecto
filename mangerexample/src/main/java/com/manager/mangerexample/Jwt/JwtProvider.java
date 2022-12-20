@@ -19,29 +19,53 @@ public class JwtProvider {
     @Value("${jwt.expiration}")
     private int expiration;
     public String generateToken(Authentication authentication){
+        /*String userName= authentication.getName();
+        Date fechaHoy= new Date();
+        Date expiracion= new Date(fechaHoy.getTime()+expiration);
+        Claims claims= Jwts.claims().setSubject(userName);
+        claims.put("fechaHoy",fechaHoy);
+        claims.put("fechaExpiracion",expiracion);
+        claims.put("roles",authentication.getAuthorities());
+        return Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.HS256,secret).compact();*/
         UsuarioPrincipal usuarioPrincipal= (UsuarioPrincipal) authentication.getPrincipal();
+        logger.debug(Jwts.builder().setSubject(usuarioPrincipal.getUsername()).setIssuedAt(new Date())
+                .setExpiration(new Date(new Date().getTime()+ expiration*1000))
+                .signWith(SignatureAlgorithm.HS256,secret).compact());
         return Jwts.builder().setSubject(usuarioPrincipal.getUsername()).setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime()+ expiration*1000))
                 .signWith(SignatureAlgorithm.HS256,secret).compact();
+
     }
     public   String getNombreUsuarioFromToken(String token){
         return Jwts.parser().setSigningKey(secret).parseClaimsJwt(token).getBody().getSubject();
     }
     public boolean validateToken(String token){
+
         try {
-            Jwts.parser().setSigningKey(secret).parseClaimsJwt(token);
+            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+
             return true;
 
         } catch (MalformedJwtException e) {
-            logger.error("token mal formado");
+            logger.error("token mal formado "+e.getMessage());
+            logger.error(token);
+            e.printStackTrace();
         }catch (UnsupportedJwtException e) {
-            logger.error("token no soportado");
+            logger.error("token no soportado "+e.getMessage());
+            logger.error(token);
+            e.printStackTrace();
         }catch (ExpiredJwtException e) {
-            logger.error("token expirado");
+            logger.error("token expirado "+e.getMessage());
+            logger.error(token);
+            e.printStackTrace();
         }catch (IllegalArgumentException e) {
-            logger.error("token vacio");
+            logger.error("token vacio "+e.getMessage());
+            logger.error(token);
+            e.printStackTrace();
         }catch (SignatureException e) {
-            logger.error("fail en la firma token");
+            logger.error("fail en la firma token "+e.getMessage());
+            logger.error(token);
+            e.printStackTrace();
         }
         return false;
 

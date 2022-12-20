@@ -29,3 +29,12 @@
  "password":"1234",	
  "imageUrl":"https://www.bootdey.com/app/webroot/img/Content/avatar/avatar5.png"
 }
+{
+    "name":"Lionel messi",
+    "nombreUsuario":"messicrak",
+    "email":"lionel.messi@gmail.com",
+    "password":"1234",
+    "roles":[],
+    "posicion":"delantero",
+    "imageUrl":"https://fcb-abj-pre.s3.amazonaws.com/img/jugadors/MESSI.jpg"
+}
