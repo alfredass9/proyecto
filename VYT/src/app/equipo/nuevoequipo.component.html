@@ -1,0 +1,31 @@
+<app-menu></app-menu>
+<div class="text-center">
+    <ng-template ngIf="isLogged">
+      <div class="container">
+        <div class="card-body">
+          <div class="row d-flex justify-content-center">
+            <form #f="ngForm"(ngSubmit)="onCreate()" novalidate>
+              <div class="form-group">
+                <label for="nombreEquipo">Nombre de Equipo</label>
+                <input type="text" name="nombreEquipo" id="nombreEquipo" class="form-control" 
+                placeholder="Nombre de tu equipo" [(ngModel)]="nombreEquipo"required>
+              </div>
+              <div class="form-group">
+                  <label for="logo">Logo</label>
+                  <input type="logo" name="logo" id="logo" class="form-control" 
+                  placeholder="logoURl" [(ngModel)]="logo" required>
+                </div>
+                <div class="form-group">
+                  <button class="btn btn-outline-success btn-block"[disabled]="!f.valid">
+                      <i class="fas fa-sign-in-alt"></i> Crea tu Equipo</button>
+                </div>
+          </form>
+          <div *ngIf="f.submitted && iscreated" class="alert alert-danger mt-3"> Fail en la creacion del Equipo: {{errMSj}}</div>
+        </div>
+          </div>
+          
+
+      </div>
+
+    </ng-template>
+</div>
